@@ -4,8 +4,7 @@ class Message {
     User user;
     String lastMessage;
     String lastTime;
-    bool isContinue;
-    Message(this.user, this.lastMessage, this.lastTime, {this.isContinue = false});
+    Message(this.user, this.lastMessage, this.lastTime);
 
     static List<Message> generateHomePageMessages(){
         return [
@@ -15,6 +14,7 @@ class Message {
             Message( users[3], 'Hey there! How are you? It’s been a while! ', '7:30'),
             Message( users[4], 'Hey there! How are you? It’s been a while! ', '12:30'),
             Message( users[5], 'Hey there! How are you? It’s been a while! ', '12:30'),
+            Message( users[6], 'Hey there! How are you? It’s been a while! ', '12:30'),
         ];
     }
 }

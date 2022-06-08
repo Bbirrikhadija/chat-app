@@ -30,7 +30,7 @@ class RecentContacts extends StatelessWidget{
                     height: 55,
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                        color: Colors.yellow,
+                        color: Colors.white,
                         shape: BoxShape.circle,
                         image:
                         DecorationImage(image: AssetImage(contactList[index].iconUrl))

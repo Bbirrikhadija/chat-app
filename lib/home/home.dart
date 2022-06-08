@@ -4,17 +4,33 @@ import 'package:chat_application/widgets/recent_contacts.dart';
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 
-class HomePage extends StatelessWidget{
+class HomePage extends StatefulWidget {
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
+  final screens = [
+    Center(child: HomePage()),
+    Center(child: Text('Friends')),
+    Center(child: Text('Profile')),
+  ];
   @override
   Widget build (BuildContext context){
     return Scaffold(
       backgroundColor: KPrimary,
-      body: Container(
+
+      body:
+        Container(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top),
+
+
         child: Column (
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Padding(
+          children: [
+            Padding(
             padding: const EdgeInsets.only(left: 25),
             child: Text('Friend chat',
             style : TextStyle(
@@ -23,20 +39,36 @@ class HomePage extends StatelessWidget{
               fontSize: 28
             ), ),
           ),
+
             RecentContacts(),
-            Messages()
+            Messages(),
           ],
 
         ),
+
       ),
       bottomNavigationBar:
-      BottomNavigationBar(selectedItemColor: Colors.deepPurple[300], items: [
-        BottomNavigationBarItem(icon: Icon(Icons.message_rounded), label: 'Messages'),
+      BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) => setState(() => currentIndex = index),
+        selectedItemColor: Colors.deepPurple[300],
+        showUnselectedLabels: false, items: [
         BottomNavigationBarItem(
-            icon: Icon(Icons.people_outlined), label: 'Friends'),
+            icon: Icon(
+                Icons.message_rounded),
+            label: 'Chats'),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined), label: 'Profile'),
-      ]),
+            icon: Icon(
+                Icons.people_outlined),
+            label: 'Friends'),
+        BottomNavigationBarItem(
+            icon: Icon(
+                Icons.person_outlined),
+            label: 'Profile'
+        )
+      ],
+      ),
     );
   }
 }
+
