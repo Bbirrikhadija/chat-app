@@ -1,5 +1,6 @@
 import 'package:chat_application/constants/colors.dart';
 import 'package:flutter/material.dart';
+import '../constants/colors.dart';
 import '../models/messages.dart';
 class Messages extends StatelessWidget {
   final messageList = Message.generateHomePageMessages();
@@ -8,7 +9,7 @@ class Messages extends StatelessWidget {
     return Expanded(
        child:  Container(
          child: buildMessage(),
-       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
          decoration: BoxDecoration(
            color: Colors.white,
            borderRadius: BorderRadius.only(
@@ -62,6 +63,19 @@ class Messages extends StatelessWidget {
             overflow: TextOverflow.ellipsis,)
           ],
         ),
+        ),
+        Container(
+          width: 18,
+          height: 18,
+          decoration: const BoxDecoration(
+            color: purpleapp,
+            shape: BoxShape.circle,
+          ),
+          child: const Center(child: Text('1',
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),)),
         )
 
     ],);

@@ -2,6 +2,7 @@ import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/widgets/messages.dart';
 import 'package:chat_application/widgets/recent_contacts.dart';
 import 'package:flutter/material.dart';
+import '../screens/profile.dart';
 import '../constants/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,12 +11,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
-  final screens = [
-    Center(child: HomePage()),
-    Center(child: Text('Friends')),
-    Center(child: Text('Profile')),
+  int _currentIndex = 0;
+  final List _children = [
+    HomePage(),
+    Text('Hello friends!'),
+    Profile(),
   ];
+
+  static get imagePath => null;
   @override
   Widget build (BuildContext context){
     return Scaffold(
@@ -39,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               fontSize: 28
             ), ),
           ),
-
+            _children[_currentIndex],
             RecentContacts(),
             Messages(),
           ],
@@ -49,8 +52,8 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar:
       BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index) => setState(() => currentIndex = index),
+        onTap: onTabTapped, // new
+        currentIndex: _currentIndex,
         selectedItemColor: Colors.deepPurple[300],
         showUnselectedLabels: false, items: [
         BottomNavigationBarItem(
@@ -69,6 +72,13 @@ class _HomePageState extends State<HomePage> {
       ],
       ),
     );
+  }
+
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
 

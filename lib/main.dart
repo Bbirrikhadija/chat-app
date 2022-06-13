@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:chat_application/home/home.dart';
+import 'package:chat_application/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage()
+      home: HomePage()
     );
   }
 }
