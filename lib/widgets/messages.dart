@@ -53,7 +53,7 @@ class Messages extends StatelessWidget {
                  messageList[index].user.firstName } ${messageList[index].user.lastName }'
                  , style: TextStyle(
                    fontSize: 16,
-                   color:KPrimaryDark,
+                   color:kprimarydark,
                    fontWeight: FontWeight.bold),
                  ),
                        Text(messageList[index].lastTime)],
@@ -62,6 +62,7 @@ class Messages extends StatelessWidget {
              Text(messageList[index].lastMessage,
             overflow: TextOverflow.ellipsis,)
           ],
+          
         ),
         ),
         Container(
@@ -76,6 +77,7 @@ class Messages extends StatelessWidget {
             fontSize: 18,
             color: Colors.white,
           ),)),
+          
         )
 
     ],);
