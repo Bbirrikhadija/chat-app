@@ -2,47 +2,48 @@ import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/widgets/messages.dart';
 import 'package:chat_application/widgets/recent_contacts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import '../screens/profile.dart';
 import '../constants/colors.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-  final List _children = [
-    HomePage(),
-    Text('Hello friends!'),
-    Profile(),
-  ];
+  late int _currentIndex;
 
-  static get imagePath => null;
   @override
   Widget build (BuildContext context){
+    const String page1 = "Chats";
+    const String page2 = "Friends";
+    const String page3 = "Profile";
+    const String title = "Demo";     
     return Scaffold(
-      backgroundColor: kprimary,
+      backgroundColor: Colors.white,
 
       body:
         Container(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top),
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top),
 
 
-        child: Column (
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          child: Column (
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child:
+            
             Padding(
             padding: const EdgeInsets.only(left: 25),
             child: Text('Friend chat',
             style : TextStyle(
-              color: Colors.white,
+              color: kprimary,
               fontWeight: FontWeight.bold,
               fontSize: 28
             ), ),
+            ),
           ),
-            _children[_currentIndex],
             RecentContacts(),
             Messages(),
           ],
@@ -50,12 +51,18 @@ class _HomePageState extends State<HomePage> {
         ),
 
       ),
+      floatingActionButton: 
+      FloatingActionButton(
+        onPressed: () {}, 
+        backgroundColor: purpleapp,
+          child: const Icon( Icons.edit,
+          size: 20,), ),
       bottomNavigationBar:
       BottomNavigationBar(
-        onTap: onTabTapped, // new
-        currentIndex: _currentIndex,
+
+        
         selectedItemColor: Colors.deepPurple[300],
-        showUnselectedLabels: false, items: [
+        showUnselectedLabels: false, items: const [
         BottomNavigationBarItem(
             icon: Icon(
                 Icons.message_rounded),
@@ -71,14 +78,26 @@ class _HomePageState extends State<HomePage> {
         )
       ],
       ),
+      drawer: Drawer(
+        child: Container(
+          margin: const EdgeInsets.only(top: 20.0),
+          child: Column(
+            children: <Widget>[
+              _navigationItemListTitle(page1, 0),
+              _navigationItemListTitle(page2, 1),
+              _navigationItemListTitle(page3, 2),
+            ],
+          ),
+        ),
+      ),
     );
   }
-
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+Widget _navigationItemListTitle(String title, int index) {
+  return ListTile(
+      title: Text(
+        '$title Page',
+        style: TextStyle(color: Colors.blue[400], fontSize: 22.0),
+      ),
+    );
   }
 }
-

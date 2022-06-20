@@ -1,13 +1,23 @@
+import 'package:chat_application/constants/colors.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
-class RecentContacts extends StatelessWidget{
+
+class RecentContacts extends StatefulWidget {
+  const RecentContacts({Key? key}) : super(key: key);
+
+  @override
+  _RecentContactsState createState() => _RecentContactsState();
+}
+
+class _RecentContactsState extends State<RecentContacts> {
   final contactList = User.generateUsers();
   @override
   Widget build(BuildContext context){
     return Container(
       margin: EdgeInsets.symmetric(vertical: 25),
       padding:  EdgeInsets.only(left: 25),
-      height: 50,
+      color: kprimary,
+      height:120,
       child: Row(
         children : [
           Container(

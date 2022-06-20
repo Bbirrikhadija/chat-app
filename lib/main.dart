@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:html';
 import 'package:chat_application/home/home.dart';
 import 'package:chat_application/screens/Welcome/welcome_screen.dart';
+import 'package:chat_application/screens/chat.dart';
 import 'package:chat_application/screens/profile.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                WelcomeScreen()
+                WelcomeScreen(),
             )
         )
     );
@@ -52,10 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: Alignment.center,
         child:
         Image(
-
-        image: AssetImage('assets/images/logoapp.png' ), height: 4000,),
+        image: AssetImage('assets/images/logoapp.png',  ), height: 500,),
     ),
     );
 
   }
 }
+  

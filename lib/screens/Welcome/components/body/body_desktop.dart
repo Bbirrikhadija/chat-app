@@ -32,7 +32,7 @@ class BodyDesktop extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Freind Chatt ',
+                    'Friend Chat ',
                     style: TextStyle(
                       fontSize: size.height * 0.075,
                       fontWeight: FontWeight.bold,

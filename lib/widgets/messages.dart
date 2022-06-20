@@ -1,85 +1,144 @@
+import 'dart:html';
+
 import 'package:chat_application/constants/colors.dart';
+import 'package:chat_application/screens/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../constants/colors.dart';
 import '../models/messages.dart';
-class Messages extends StatelessWidget {
-  final messageList = Message.generateHomePageMessages();
+
+class Messages extends StatefulWidget {
+  const Messages({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context){
-    return Expanded(
-       child:  Container(
-         child: buildMessage(),
-       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
-         decoration: BoxDecoration(
-           color: Colors.white,
-           borderRadius: BorderRadius.only(
-               topLeft: Radius.circular(30),
-           topRight: Radius.circular(30))
-         ),
-    ),
+  _MessagesState createState() => _MessagesState();
+}
 
+class _MessagesState extends State<Messages> {
+  final List messages = [
+    {'senderProfile' : 'assets/images/user1.jpg',
+      'senderName': 'Khadija',
+      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
+      'unRead' : 0,
+      'date' : '16:45',
+
+    },
+     {'senderProfile' : 'assets/images/user1.jpg',
+      'senderName': 'Laila',
+      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
+      'unRead' : 2,
+      'date' : '17:00',
+
+    },
+     {'senderProfile' : 'assets/images/user1.jpg',
+      'senderName': 'Mohammed',
+      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
+      'unRead' : 3,
+      'date' : '17:09',
+
+    },
+     {'senderProfile' : 'assets/images/user1.jpg',
+      'senderName': 'Fadwa',
+      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
+      'unRead' : 4,
+      'date' : '18:06',
+
+    },
+  ];
+
+   @override
+  Widget build (BuildContext context){
+    return SingleChildScrollView(
+      child: Column(
+        children: 
+        messages.map((message){
+            return InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
+              },
+              child: Container(
+                padding: EdgeInsets.only(left: 30, right: 10, top: 15),
+                child: Row(children: [
+                  Container(
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                      color: purpleapp,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(message['senderProfile']),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(message['senderName'],
+                              style: GoogleFonts.inter(
+                                color: Colors.black87,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              ),
+                              Wrap(
+                                children: [
+                                  Text(
+                                    message['message'],
+                                    style: GoogleFonts.inter(
+                                      color: Colors.grey,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                ],
+                              )
+                              
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(message['date']),
+                              message['unRead'] != 0 ? 
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: purpleapp,
+                                  shape: BoxShape.circle,
+                                ),
+                              child:
+                              Text(message['unRead'].toString(),
+                              style: GoogleFonts.inter(
+                                color:Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                               ),
+                               )
+                               : Container()
+                              
+                            ],
+                          )
+                        ],
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          color: Colors.grey[400],
+                          height: 0.5,
+                        )
+                      ],))
+                ]),
+              ),
+            );
+        }).toList()
+      ,)
     );
-  }
-
-  Widget buildMessage() {
-    return ListView.separated(
-        padding: EdgeInsets.zero,
-        itemBuilder: (context, index) => buildMessages(index),
-        separatorBuilder: (BuildContext context, int index) => SizedBox(height: 30),
-        itemCount: messageList.length);
-  }
-  Widget buildMessages(int index){
-    return Row(
-      children: [
-        Container(
-        width: 55,
-        height: 55,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-              image:
-              DecorationImage(image: AssetImage(messageList[index].user.iconUrl))
-          ),
-      ),
-        SizedBox(width: 10),
-        Flexible(
-            child: Column(
-          children: [
-             Row(
-               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               children: [
-                 Text(
-                   '${
-                 messageList[index].user.firstName } ${messageList[index].user.lastName }'
-                 , style: TextStyle(
-                   fontSize: 16,
-                   color:kprimarydark,
-                   fontWeight: FontWeight.bold),
-                 ),
-                       Text(messageList[index].lastTime)],
-             ),
-             SizedBox(height: 5),
-             Text(messageList[index].lastMessage,
-            overflow: TextOverflow.ellipsis,)
-          ],
-          
-        ),
-        ),
-        Container(
-          width: 18,
-          height: 18,
-          decoration: const BoxDecoration(
-            color: purpleapp,
-            shape: BoxShape.circle,
-          ),
-          child: const Center(child: Text('1',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),)),
-          
-        )
-
-    ],);
+    
   }
 }

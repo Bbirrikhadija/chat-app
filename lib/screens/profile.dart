@@ -13,7 +13,7 @@ class _ProfileScreenState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Profile',),
         backgroundColor: purpleapp,
       ),
       body: Padding(
@@ -22,7 +22,7 @@ class _ProfileScreenState extends State<Profile> {
           Center(
             child: Stack(
               children:[ CircleAvatar(
-                backgroundImage: AssetImage('assets/deepa.jpg'),
+                backgroundImage: AssetImage('assets/images/user1.jpg'),
                 radius: 90,
               ),
                 Positioned(
@@ -45,34 +45,11 @@ class _ProfileScreenState extends State<Profile> {
                     subtitle: Opacity(
                       opacity: 0.7,
                       child: Text(
-                        'Deepa Pandey ',
+                        'BBIRRI khadija ',
                         style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                       ),
                     ),
                     trailing: Icon(Icons.edit),
-                  ),
-                ),
-                Divider(
-                  color: Colors.grey[300],
-                  thickness: 1,
-                  indent: 65,
-                  endIndent: 5,
-                ),
-                Card(
-                  color: Colors.transparent,
-                  elevation: 0,
-                  child: ListTile(
-                    leading: Icon(Icons.info_outline_rounded,color: purpleapp,),
-                    title: Text('About'),
-                    subtitle: Opacity(
-                      opacity: 0.7,
-                      child: Text(
-                        'Accustomed 🤕 wid coding 👨‍💻 & covid 🦠 ',
-                        style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
-                      ),
-                    ),
-                    trailing: Icon(Icons.edit),
-                    isThreeLine: true,
                   ),
                 ),
                 Divider(
