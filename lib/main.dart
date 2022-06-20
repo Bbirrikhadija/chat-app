@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                WelcomeScreen(),
+                HomePage(),
             )
         )
     );
