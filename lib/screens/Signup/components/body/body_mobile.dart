@@ -40,7 +40,7 @@ class _BodyMobileState extends State<BodyMobile> {
               children: [
                 Container(margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child:  CircleAvatar( radius: 71,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.grey[100],
                   child :  CircleAvatar(
                     radius: 65,
                     backgroundImage: _pickedImage == null ? null : FileImage(_pickedImage),
@@ -52,7 +52,7 @@ class _BodyMobileState extends State<BodyMobile> {
                   left: 120,
                 child: RawMaterialButton(
                   elevation: 10,
-                  fillColor: Colors.grey,
+                  fillColor: Colors.white,
                   child: Icon(Icons.add_a_photo),
                   padding: EdgeInsets.all(15),
                   shape: CircleBorder(),

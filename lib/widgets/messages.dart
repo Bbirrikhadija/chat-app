@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/screens/chat.dart';
@@ -57,7 +56,7 @@ class _MessagesState extends State<Messages> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
               },
               child: Container(
-                padding: EdgeInsets.only(left: 30, right: 10, top: 15),
+                padding: EdgeInsets.only( right: 37, top: 10),
                 child: Row(children: [
                   Container(
                     width: 62,
@@ -93,7 +92,7 @@ class _MessagesState extends State<Messages> {
                                     message['message'],
                                     style: GoogleFonts.inter(
                                       color: Colors.grey,
-                                      fontSize: 15,
+                                      fontSize: 11.6,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   )

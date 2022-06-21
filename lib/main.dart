@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 import 'package:chat_application/home/home.dart';
 import 'package:chat_application/screens/Welcome/welcome_screen.dart';
 import 'package:chat_application/screens/chat.dart';
@@ -39,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                WelcomeScreen(),
+                HomePage(),
             )
         )
     );
