@@ -19,7 +19,7 @@ class BodyMobile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              "WELCOME TO Friend Chatt",
+              "WELCOME TO Friend Chat",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.05),

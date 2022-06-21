@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                HomePage(),
+                WelcomeScreen(),
             )
         )
     );
@@ -60,4 +60,4 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 }
-  
+

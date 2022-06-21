@@ -15,6 +15,12 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white ,
       appBar: AppBar(
+        title: Text( "Alla Burda",
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),),  
         backgroundColor: purpleapp,
         leading: IconButton(
           icon: const Icon(
@@ -102,12 +108,13 @@ class BottomSection extends StatelessWidget {
                 color: purpleapp,
                 shape: BoxShape.circle,
               ),
-              child: const IconButton(
+              child:  IconButton(
+                onPressed: () {}, 
                 icon: Icon(
-                  Icons.mic_none_sharp,
+                  Icons.send,
                   color: Colors.white,
+                  
                 ),
-                onPressed: null,
               ),
             ),
           ],
@@ -137,23 +144,6 @@ class ChatingSection extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 15),
-            Text(
-              "Alla Burda",
-              style: GoogleFonts.inter(
-                color: Colors.black87,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Text(
-              "Was online 56 seconde ago",
-              style: GoogleFonts.inter(
-                color: Colors.grey,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
             const SizedBox(height: 45),
             TextMessage(
               message: "Months on ye at by esteem",
