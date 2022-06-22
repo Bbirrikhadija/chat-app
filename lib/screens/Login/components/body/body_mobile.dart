@@ -4,14 +4,22 @@ import 'package:chat_application/components/rounded_input_field.dart';
 import 'package:chat_application/components/rounded_password_field.dart';
 import 'package:chat_application/screens/Login/components/background.dart';
 import 'package:chat_application/screens/Signup/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class BodyMobile extends StatelessWidget {
-  const BodyMobile({
-    Key? key,
-  }) : super(key: key);
+class BodyMobile extends  StatefulWidget {
+  const BodyMobile({Key? key}) : super(key: key);
 
+  @override
+  _BodyMobileState createState() => _BodyMobileState();
+}
+
+class _BodyMobileState extends State<BodyMobile> {
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
+  bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,18 +33,41 @@ class BodyMobile extends StatelessWidget {
               "assets/icons/login.svg",
               height: size.height * 0.35,
             ),
+            // _LoginEmail(emailController: _emailController),
+            // const SizedBox(height: 30.0),
+            // _LoginPassword(passwordController: _passwordController),
+            // const SizedBox(height: 30.0),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
-              hintText: "Your Email",
-              onChanged: (value) {},
+              hintText: "Email",
+              onChanged: (value) {
+                email = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value;
+              },
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
-            ),
+              press: () async {
+                    setState(() {
+                      showSpinner = true;
+                    });
+                    try {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (user != null) {
+                        Navigator.pushNamed(context, 'home_page');
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                    setState(() {
+                      showSpinner = false;
+                    });
+                  }),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               press: () {
@@ -56,3 +87,4 @@ class BodyMobile extends StatelessWidget {
     );
   }
 }
+

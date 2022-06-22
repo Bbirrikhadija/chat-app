@@ -20,17 +20,17 @@ class _RecentContactsState extends State<RecentContacts> {
       height:120,
       child: Row(
         children : [
-          Container(
-            padding: EdgeInsets.all(10),
-            margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              color:  Colors.white.withOpacity(0.4), shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.search,
-              size: 30,
-              color: Colors.white,),
-          ),
+          // Container(
+          //   padding: EdgeInsets.all(10),
+          //   margin: EdgeInsets.only(right: 15),
+          //   decoration: BoxDecoration(
+          //     color:  Colors.white.withOpacity(0.4), shape: BoxShape.circle,
+          //   ),
+          //   child: Icon(
+          //     Icons.search,
+          //     size: 30,
+          //     color: Colors.white,),
+          // ),
           Expanded(
           child: ListView.separated(
             scrollDirection: Axis.horizontal,

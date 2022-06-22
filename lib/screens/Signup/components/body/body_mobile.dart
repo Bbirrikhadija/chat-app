@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/home/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:chat_application/components/already_have_an_account_acheck.dart';
 import 'package:chat_application/components/rounded_button.dart';
 import 'package:chat_application/components/rounded_input_field.dart';
@@ -22,32 +24,34 @@ class BodyMobile extends StatefulWidget {
 }
 
 class _BodyMobileState extends State<BodyMobile> {
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String firstname;
+  late String lastname;
+  late String password;
+  bool showSpinner = false;
   late File _pickedImage;
+  final ImagePicker _picker = ImagePicker();
+  final _globalkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-  
+  var _pickedImage;
     Size size = MediaQuery.of(context).size;
-    var _pickedImage;
     return Background(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "assets/icons/signup.svg",
-              height: size.height * 0.22,
-            ),
             Stack(
               children: [
                 Container(margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                child:  CircleAvatar( radius: 71,
-                  backgroundColor: Colors.grey[100],
+                child:  CircleAvatar( radius: 68,
+                backgroundColor: Colors.grey,
                   child :  CircleAvatar(
+                    backgroundColor: Colors.grey[200],
                     radius: 65,
-                    backgroundImage: _pickedImage == null ? null : FileImage(_pickedImage),
                     ),
-                  
+                   backgroundImage: _pickedImage == null ? null : FileImage(_pickedImage.path),
                   ), ), 
                 Positioned(
                   top: 120,
@@ -71,33 +75,39 @@ class _BodyMobileState extends State<BodyMobile> {
                         content: SingleChildScrollView(
                         child: ListBody(children: [
                           InkWell(
-                            onTap: () {},
-                            splashColor: Colors.purple,
+                            onTap: () {
+                              pickImage(ImageSource.camera);
+                            },
+                            splashColor: Colors.black26,
                             child: Row(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.camera,
-                                color: purpleapp,
+                                child: Icon(Icons.camera_alt_outlined,
+                                color: Colors.black12,
                               ),
+                              
                                 ),
                                 Text("Camera", style:  TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black),
                                 ),
+                                
                               ],
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
-                            splashColor: purpleapp,
+                            onTap: () { 
+                              pickImage(ImageSource.gallery);
+                          },
+                            splashColor: Colors.black38,
                             child: Row(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                 child: Icon(Icons.image,
-                                color: purpleapp,
+                                color: Colors.black12,
                               ),
                                 ),
                                 Text("Galery", style:  TextStyle(
@@ -120,24 +130,49 @@ class _BodyMobileState extends State<BodyMobile> {
             ),
             RoundedInputField(
               hintText: "First name",
-              onChanged: (value) {},
+              onChanged: (value) {
+                firstname = value;
+              },
             ),
             RoundedInputField(
               hintText: "Last name",
-              onChanged: (value) {},
+              onChanged: (value) {
+                lastname = value;
+              },
             ),
           
             RoundedInputField(
               hintText: "Email",
-              onChanged: (value) {},
+              onChanged: (value) {
+                email = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value;
+              },
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {},
-            ),
+              press: () async {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                    if (newUser != null) {
+                      Navigator.pushNamed(context, 'home_page');
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                  setState(() {
+                    showSpinner = false;
+            });
+                },
+              ),
+
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               login: false,
@@ -157,4 +192,14 @@ class _BodyMobileState extends State<BodyMobile> {
       ),
     );
   }
+  Future pickImage(ImageSource imageType) async {
+    final pickedFile = await _picker.pickImage(
+      source: imageType
+    );
+    if(pickedFile == null) return;
+    setState(() {
+      _pickedImage = pickedFile as File;
+    });
+  }
+
 }
