@@ -11,14 +11,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-  late int _currentIndex;
 
   @override
-  Widget build (BuildContext context){
-    const String page1 = "Chats";
-    const String page2 = "Friends";
-    const String page3 = "Profile";
-    const String title = "Demo";     
+  Widget build (BuildContext context){   
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -75,29 +70,41 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
                 Icons.person_outlined),
             label: 'Profile'
-        )
-      ],
-      ),
-      drawer: Drawer(
-        child: Container(
-          margin: const EdgeInsets.only(top: 20.0),
-          child: Column(
-            children: <Widget>[
-              _navigationItemListTitle(page1, 0),
-              _navigationItemListTitle(page2, 1),
-              _navigationItemListTitle(page3, 2),
-            ],
-          ),
         ),
-      ),
-    );
-  }
-Widget _navigationItemListTitle(String title, int index) {
-  return ListTile(
-      title: Text(
-        '$title Page',
-        style: TextStyle(color: Colors.blue[400], fontSize: 22.0),
-      ),
+        ],
+        ),
     );
   }
 }
+
+// Future getImage(BuildContext context) async {
+//     final pickedFile = await picker.pickImage(source fb: ImageSource.gallery);
+//     if (pickedFile != null) {
+//       return pickedFile;
+//     } else {
+//       return null;
+//     }
+//   }
+
+  // Future uploadFile2(File? file, context) async {
+  //   if (file == null) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text("No file was selected")));
+  //     return null;
+  //   }
+  //   Random rand = new Random();
+  //   image = File(file.path);
+  //   firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+  //       .ref()
+  //       .child('photos')
+  //       .child('/${DateTime.now().toIso8601String()}');
+  //   UploadTask uploadTask = ref.putFile(image!);
+  //   await uploadTask.whenComplete(() async {
+  //     var url = await ref.getDownloadURL();
+  //     this.imageUri = url.toString();
+  //   }).catchError((onError) {
+  //     print(onError);
+  //   });
+  //   update();
+  //   return await ref.getDownloadURL();
+  // }

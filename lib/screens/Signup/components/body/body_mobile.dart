@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'dart:io' as io;
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:chat_application/components/already_have_an_account_acheck.dart';
 import 'package:chat_application/components/rounded_button.dart';
 import 'package:chat_application/components/rounded_input_field.dart';
@@ -15,6 +18,7 @@ import 'package:chat_application/screens/Signup/components/background.dart';
 import 'package:chat_application/screens/Signup/components/or_divider.dart';
 import 'package:chat_application/screens/Signup/components/social_icon.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path/path.dart';
 
 class BodyMobile extends StatefulWidget {
   const BodyMobile({Key? key}) : super(key: key);
@@ -24,18 +28,52 @@ class BodyMobile extends StatefulWidget {
 }
 
 class _BodyMobileState extends State<BodyMobile> {
+  io.File? _image;
+  final ImagePicker _picker = ImagePicker();
   final _auth = FirebaseAuth.instance;
+  var storage = FirebaseStorage.instance;
   late String email;
   late String firstname;
   late String lastname;
   late String password;
   bool showSpinner = false;
-  late File _pickedImage;
-  final ImagePicker _picker = ImagePicker();
+  late FirebaseStorage _storage;
+  late String _path;
+  bool _isLoading = false;
   final _globalkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-  var _pickedImage;
+    void getImage(ImageSource imageType) async{
+      var image = await _picker.pickImage(source : imageType);
+      setState(() {
+        if (image != null) {
+        _image = io.File(image.path);
+        print('image Path');
+      }
+      Navigator.pop(context);
+      });
+    }
+    Future uploadPic(BuildContext context ) async{
+      String filName = basename(_image!.path);
+      firebase_storage.Reference ref =
+    firebase_storage.FirebaseStorage.instance.ref().child('filName');
+  firebase_storage.UploadTask uploadTask;
+    uploadTask = ref.putFile(io.File(_image!.path));
+      // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+        firebase_storage.UploadTask task= await Future.value(uploadTask);
+    Future.value(uploadTask).then((value) => {
+    print("Upload file path ${value.ref.fullPath}")
+    }).onError((error, stackTrace) => {
+      print("Upload file path error ${error.toString()} ")
+    });
+
+      // StorageTaskSnapchot taskSnapchot = await uploadTask.onComplete;
+      // setState(() {
+      //   print("picture uploaded");
+      //   Scaffold.of(context).showSnackBar(snackbar(context : Text('profile Picture uploaded')));
+      // });
+    }
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -47,12 +85,17 @@ class _BodyMobileState extends State<BodyMobile> {
                 Container(margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child:  CircleAvatar( radius: 68,
                 backgroundColor: Colors.grey,
-                  child :  CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 65,
-                    ),
-                   backgroundImage: _pickedImage == null ? null : FileImage(_pickedImage.path),
-                  ), ), 
+                  child :  ClipOval(
+                    child: SizedBox(
+                      width: 168,
+                      height: 180,
+                      child: (_image!= null)? Image.file(_image!, fit:BoxFit.fill):
+                      Image.asset('assets/images/user1.jpg', fit: BoxFit.fill,),
+                  ),
+                  )
+                  ),
+                  ), 
+                  
                 Positioned(
                   top: 120,
                   left: 120,
@@ -75,9 +118,7 @@ class _BodyMobileState extends State<BodyMobile> {
                         content: SingleChildScrollView(
                         child: ListBody(children: [
                           InkWell(
-                            onTap: () {
-                              pickImage(ImageSource.camera);
-                            },
+                            onTap:(){ getImage(ImageSource.camera);},
                             splashColor: Colors.black26,
                             child: Row(
                               children: [
@@ -98,9 +139,10 @@ class _BodyMobileState extends State<BodyMobile> {
                             ),
                           ),
                           InkWell(
-                            onTap: () { 
-                              pickImage(ImageSource.gallery);
-                          },
+                            onTap:()
+                            {getImage(ImageSource.gallery);
+                            },
+
                             splashColor: Colors.black38,
                             child: Row(
                               children: [
@@ -192,14 +234,48 @@ class _BodyMobileState extends State<BodyMobile> {
       ),
     );
   }
-  Future pickImage(ImageSource imageType) async {
-    final pickedFile = await _picker.pickImage(
-      source: imageType
-    );
-    if(pickedFile == null) return;
-    setState(() {
-      _pickedImage = pickedFile as File;
-    });
-  }
-
+  //  void _pickImageCamera() async {
+  //   final picker = ImagePicker();
+  //   final pickedImage =
+  //       await picker.pickImage(source: ImageSource.camera, imageQuality: 10);
+  //   final pickedImageFile = File(pickedImage!.path);
+  //   setState(() {
+  //     _pickedImage = pickedImageFile;
+  //   });
+  //   Navigator.pop(context);
+  // }
+  // void _pickImageGallery() async {
+  //   final picker = ImagePicker();
+  //   final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  //   final pickedImageFile = File(pickedImage!.path);
+  //   setState(() {
+  //     _pickedImage = pickedImageFile;
+  //   });
+  //   Navigator.pop(context);
+  // }
 }
+
+
+  // Future uploadFile2(File? file, context) async {
+  //   if (file == null) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text("No file was selected")));
+  //     return null;
+  //   }
+  //   Random rand = new Random();
+  //   image = File(file.path);
+  //   firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+  //       .ref()
+  //       .child('photos')
+  //       .child('/${DateTime.now().toIso8601String()}');
+  //   UploadTask uploadTask = ref.putFile(image!);
+  //   await uploadTask.whenComplete(() async {
+  //     var url = await ref.getDownloadURL();
+  //     this.imageUri = url.toString();
+  //   }).catchError((onError) {
+  //     print(onError);
+  //   });
+  //   update();
+  //   return await ref.getDownloadURL();
+  // }
+

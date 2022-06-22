@@ -125,8 +125,8 @@ class BottomSection extends StatelessWidget {
 }    
 
 class ChatingSection extends StatelessWidget {
-  final String senderProfile = 'images/avatar/a3.jpg';
-  final String receiverProfile = 'images/avatar/a6.jpg';
+  final String senderProfile = 'assets/images/user1.jpg';
+  final String receiverProfile = 'assets/images/user2.png';
   const ChatingSection({Key? key}) : super(key: key);
 
   @override
