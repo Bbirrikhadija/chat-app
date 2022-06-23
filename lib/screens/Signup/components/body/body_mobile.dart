@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:io' as io;
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/home/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ import 'package:chat_application/screens/Signup/components/background.dart';
 import 'package:chat_application/screens/Signup/components/or_divider.dart';
 import 'package:chat_application/screens/Signup/components/social_icon.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' ;
 
 class BodyMobile extends StatefulWidget {
   const BodyMobile({Key? key}) : super(key: key);
@@ -28,10 +29,10 @@ class BodyMobile extends StatefulWidget {
 }
 
 class _BodyMobileState extends State<BodyMobile> {
+  FirebaseStorage storage = FirebaseStorage.instance;
   io.File? _image;
   final ImagePicker _picker = ImagePicker();
   final _auth = FirebaseAuth.instance;
-  var storage = FirebaseStorage.instance;
   late String email;
   late String firstname;
   late String lastname;
@@ -40,6 +41,7 @@ class _BodyMobileState extends State<BodyMobile> {
   late FirebaseStorage _storage;
   late String _path;
   bool _isLoading = false;
+  String imageUrl = '';
   final _globalkey = GlobalKey<FormState>();
 
   @override
@@ -55,18 +57,25 @@ class _BodyMobileState extends State<BodyMobile> {
       });
     }
     Future uploadPic(BuildContext context ) async{
-      String filName = basename(_image!.path);
-      firebase_storage.Reference ref =
-    firebase_storage.FirebaseStorage.instance.ref().child('filName');
+      String fileName = basename(_image!.path);
+      
+    firebase_storage.Reference ref =
+    firebase_storage.FirebaseStorage.instance
+        .ref().child('uploads').child('/$fileName');
+          final metadata = firebase_storage.SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': fileName});
+
   firebase_storage.UploadTask uploadTask;
     uploadTask = ref.putFile(io.File(_image!.path));
       // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-        firebase_storage.UploadTask task= await Future.value(uploadTask);
-    Future.value(uploadTask).then((value) => {
-    print("Upload file path ${value.ref.fullPath}")
-    }).onError((error, stackTrace) => {
-      print("Upload file path error ${error.toString()} ")
-    });
+    //     firebase_storage.UploadTask task= await Future.value(uploadTask);
+    // Future.value(uploadTask).then((value) => {
+    // print("Upload file path ${value.ref.fullPath}")
+    // }).onError((error, stackTrace) => {
+    //   print("Upload file path error ${error.toString()} ")
+    // });
+    
 
       // StorageTaskSnapchot taskSnapchot = await uploadTask.onComplete;
       // setState(() {
@@ -90,7 +99,7 @@ class _BodyMobileState extends State<BodyMobile> {
                       width: 168,
                       height: 180,
                       child: (_image!= null)? Image.file(_image!, fit:BoxFit.fill):
-                      Image.asset('assets/images/user1.jpg', fit: BoxFit.fill,),
+                      Image.asset('assets/images/bg-camera.jpg', fit: BoxFit.fill,),
                   ),
                   )
                   ),

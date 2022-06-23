@@ -11,25 +11,34 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex=0;
+
+  void _navigationBottomBar(int index){
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  final List <Widget>_screens=[HomePage(),Text('Hello beautiful people!'),Profile(),];
+  
 
   @override
   Widget build (BuildContext context){   
     return Scaffold(
+      
       backgroundColor: Colors.white,
-
-      body:
+      body: 
         Container(
+          
           padding: EdgeInsets.only(
             top: MediaQuery.of(context).padding.top),
-
-
+            
           child: Column (
             crossAxisAlignment: CrossAxisAlignment.start,
+            
             children: [
               Container(
                 child:
-            
-            Padding(
+                Padding(
             padding: const EdgeInsets.only(left: 25),
             child: Text('Friend chat',
             style : TextStyle(
@@ -38,11 +47,13 @@ class _HomePageState extends State<HomePage> {
               fontSize: 28
             ), ),
             ),
+            
+            
           ),
             RecentContacts(),
             Messages(),
           ],
-
+       
         ),
 
       ),
@@ -51,11 +62,12 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {}, 
         backgroundColor: purpleapp,
           child: const Icon( Icons.edit,
-          size: 20,), ),
+          size: 20,), ), 
       bottomNavigationBar:
       BottomNavigationBar(
-
-        
+        type: BottomNavigationBarType.fixed,
+           currentIndex: _selectedIndex,
+        onTap: _navigationBottomBar,
         selectedItemColor: Colors.deepPurple[300],
         showUnselectedLabels: false, items: const [
         BottomNavigationBarItem(
