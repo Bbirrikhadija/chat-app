@@ -1,10 +1,10 @@
 import 'package:chat_application/constants/colors.dart';
-import 'package:chat_application/widgets/messages.dart';
 import 'package:chat_application/widgets/recent_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../screens/profile.dart';
 import '../constants/colors.dart';
+import '../widgets/chat/messages.dart';
 
 class HomePage extends StatefulWidget {
   @override

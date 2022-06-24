@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:io' as io;
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/home/home.dart';
+import 'package:chat_application/screens/Login/components/body/body.dart';
+import 'package:chat_application/screens/Signup/components/body/authform.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -41,11 +43,59 @@ class _BodyMobileState extends State<BodyMobile> {
   late FirebaseStorage _storage;
   late String _path;
   bool _isLoading = false;
+  bool islogin = true;
   String imageUrl = '';
   final _globalkey = GlobalKey<FormState>();
-
+  void submitauthform(String email, String password, String firstname, String lastname,
+      bool islogin, BuildContext ctx) async {
+    UserCredential authResult ;
+    try {
+      setState((){
+        _isLoading = true;
+      });
+    if(islogin){
+      authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
+       await FirebaseFirestore.instance
+            .collection('users')
+            .doc(authResult.user!.uid)
+            .set({'firstname': firstname, 'password': password});
+    } else {
+      authResult = await _auth.createUserWithEmailAndPassword(email: email , password: password);
+    }
+        // await FirebaseFirestore.instance
+        //     .collection('users')
+        //     .doc(authResult.user!.uid)
+        //     .set({'firstname': firstname, 'lastname': lastname, 'password': password});
+    } on FirebaseAuthException catch (e) {
+      String message = "error";
+      if (e.code == 'weak-password') {
+        message = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The account already exists for that email.';
+      } else if (e.code == 'user-not-found') {
+        message = 'No user found for this email.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Wrong user privded for that user';
+      }
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        backgroundColor: Colors.black,
+      ),
+    );
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+       _isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    body:  Authform(submitauthform,_isLoading);
     void getImage(ImageSource imageType) async{
       var image = await _picker.pickImage(source : imageType);
       setState(() {
@@ -69,12 +119,12 @@ class _BodyMobileState extends State<BodyMobile> {
   firebase_storage.UploadTask uploadTask;
     uploadTask = ref.putFile(io.File(_image!.path));
       // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    //     firebase_storage.UploadTask task= await Future.value(uploadTask);
-    // Future.value(uploadTask).then((value) => {
-    // print("Upload file path ${value.ref.fullPath}")
-    // }).onError((error, stackTrace) => {
-    //   print("Upload file path error ${error.toString()} ")
-    // });
+        firebase_storage.UploadTask task= await Future.value(uploadTask);
+    Future.value(uploadTask).then((value) => {
+    print("Upload file path ${value.ref.fullPath}")
+    }).onError((error, stackTrace) => {
+      print("Upload file path error ${error.toString()} ")
+    });
     
 
       // StorageTaskSnapchot taskSnapchot = await uploadTask.onComplete;
@@ -193,7 +243,18 @@ class _BodyMobileState extends State<BodyMobile> {
             ),
           
             RoundedInputField(
-              hintText: "Email",
+              // add this
+                //  key: ValueKey('email'),
+                //     validator: (val) {
+                //       if (val!.isEmpty || !val.contains('@')) {
+                //         return "please enter a valid email address";
+                //       } else
+                //         return null;
+                //     },
+                //     onSaved: (val) => email = val!,
+                //     keyboardType: TextInputType.emailAddress,
+                //     decoration: InputDecoration(labelText: 'email address'),
+                      hintText: "email",
               onChanged: (value) {
                 email = value;
               },
@@ -207,7 +268,7 @@ class _BodyMobileState extends State<BodyMobile> {
               text: "SIGNUP",
               press: () async {
                   setState(() {
-                    showSpinner = true;
+                   
                   });
                   try {
                     final newUser = await _auth.createUserWithEmailAndPassword(

@@ -1,11 +1,7 @@
-
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/screens/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../constants/colors.dart';
-import '../models/messages.dart';
-
 class Messages extends StatefulWidget {
   const Messages({Key? key}) : super(key: key);
 

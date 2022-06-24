@@ -1,6 +1,6 @@
 import 'package:chat_application/constants/colors.dart';
 import 'package:chat_application/home/home.dart';
-import 'package:chat_application/widgets/messages.dart';
+import 'package:chat_application/widgets/chat/messagescreen.dart';
 import 'package:chat_application/widgets/recent_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
