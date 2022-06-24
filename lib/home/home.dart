@@ -57,12 +57,12 @@ class _HomePageState extends State<HomePage> {
         ),
 
       ),
-      floatingActionButton: 
-      FloatingActionButton(
-        onPressed: () {}, 
-        backgroundColor: purpleapp,
-          child: const Icon( Icons.edit,
-          size: 20,), ), 
+      // floatingActionButton: 
+      // FloatingActionButton(
+      //   onPressed: () {}, 
+      //   backgroundColor: purpleapp,
+      //     child: const Icon( Icons.edit,
+      //     size: 20,), ), 
       bottomNavigationBar:
       BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -74,10 +74,6 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
                 Icons.message_rounded),
             label: 'Chats'),
-        BottomNavigationBarItem(
-            icon: Icon(
-                Icons.people_outlined),
-            label: 'Friends'),
         BottomNavigationBarItem(
             icon: Icon(
                 Icons.person_outlined),

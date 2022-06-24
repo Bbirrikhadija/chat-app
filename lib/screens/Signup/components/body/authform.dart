@@ -2,8 +2,9 @@
 import 'package:flutter/cupertino.dart';
 
 class Authform extends StatefulWidget {
- final void Function (String email, String password, String firstname, String lastname,
+final void Function (String email, String password, String firstname, String lastname,
       bool islogin, BuildContext ctx)submitauthform;
+
   final bool _isLoading;
 
   Authform(this.submitauthform, this._isLoading);

@@ -40,6 +40,7 @@ dependencies:
   persistent_bottom_nav_bar: any
   path: ^1.8.1
   path_provider: ^2.0.11
+  animated_splash_screen: ^1.2.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 cupertino_icons: ^1.0.2

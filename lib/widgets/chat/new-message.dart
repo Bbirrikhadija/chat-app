@@ -18,13 +18,21 @@ class _NewMessagesState extends State<NewMessages> {
 
   _sendMessage() async {
     FocusScope.of(context).unfocus();  
-    final user = await FirebaseAuth.instance.currentUser;
+    final user =  FirebaseAuth.instance.currentUser;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+void inputData() {
+  final User? user = auth.currentUser;
+  final uid = user!.uid;
+  // here you write the codes to input the data into firestore
+}
     final userData = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
     FirebaseFirestore.instance.collection('chat').add({
             'text' : _enterdMessage,
             'createdAt': Timestamp.now(),
              'firstname' : firstname,
              'lastname' : lastname,
+             'userId': user.uid,
              });
     //send ur msg here 
    _controller.clear();
@@ -55,10 +63,16 @@ class _NewMessagesState extends State<NewMessages> {
       Row(children:<Widget> [
         Expanded(child: TextField(
           controller: _controller,
-          decoration: InputDecoration(labelText: 'send message '),
+          decoration: InputDecoration(labelText: 'send message ', enabledBorder: UnderlineInputBorder(
+borderSide: BorderSide(color: purpleapp),
+),),
+          
           onChanged: (value){
             setState(() {
               _enterdMessage = value;
+              enabledBorder: UnderlineInputBorder(
+borderSide: BorderSide(color: purpleapp),
+);
             });
           },
           ),
@@ -67,7 +81,13 @@ class _NewMessagesState extends State<NewMessages> {
             color: purpleapp,
             icon: Icon(Icons.send),
          onPressed: () {
+          enabledBorder: UnderlineInputBorder(
+borderSide: BorderSide(color: purpleapp),
+);
             if (_controller.text.trim().isNotEmpty) _sendMessage();
+            enabledBorder: UnderlineInputBorder(
+borderSide: BorderSide(color: purpleapp),
+);
           }
           ),
       ],

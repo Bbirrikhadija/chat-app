@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:chat_application/home/home.dart';
 import 'package:chat_application/screens/Login/login_screen.dart';
 import 'package:chat_application/screens/Signup/signup_screen.dart';
@@ -49,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                HomePage(),
+                WelcomeScreen(),
             )
         )
     );
@@ -65,9 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: Alignment.center,
         child:
         Image(
-        image: AssetImage('assets/images/logoapp.png',  ), height: 500,),
+        image: AssetImage('assets/images/logoapp.png',  )),
     ),
     );
+    
 
   }
 }

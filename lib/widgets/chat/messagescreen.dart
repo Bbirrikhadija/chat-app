@@ -31,8 +31,7 @@ class _ChatState extends State<Chat>{
             docs[index]['text'],
             docs[index]['firstname'],
             docs[index]['lastname'],
-            true,
-            // docs[index]['userId'] == user!.uid,
+            docs[index]['userId'] == user!.uid,
             key: ValueKey('senderhfjh'),
           ),
           );

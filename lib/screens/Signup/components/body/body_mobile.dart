@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -35,67 +36,95 @@ class _BodyMobileState extends State<BodyMobile> {
   io.File? _image;
   final ImagePicker _picker = ImagePicker();
   final _auth = FirebaseAuth.instance;
+  late FirebaseStorage _storage;
+  bool islogin = false;
   late String email;
   late String firstname;
   late String lastname;
   late String password;
-  bool showSpinner = false;
-  late FirebaseStorage _storage;
-  late String _path;
-  bool _isLoading = false;
-  bool islogin = true;
-  String imageUrl = '';
+  var _isLoading = false;
+FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _globalkey = GlobalKey<FormState>();
-  void submitauthform(String email, String password, String firstname, String lastname,
-      bool islogin, BuildContext ctx) async {
-    UserCredential authResult ;
+ void _submitAuthForm(
+    String email,
+    String password,
+    String firstname,
+    String lastname,
+    bool isLogin,
+    BuildContext ctx,
+  ) async {
+    UserCredential authResult;
+
     try {
-      setState((){
+      setState(() {
         _isLoading = true;
       });
-    if(islogin){
-      authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
-       await FirebaseFirestore.instance
-            .collection('users')
-            .doc(authResult.user!.uid)
-            .set({'firstname': firstname, 'password': password});
-    } else {
-      authResult = await _auth.createUserWithEmailAndPassword(email: email , password: password);
-    }
-        // await FirebaseFirestore.instance
-        //     .collection('users')
-        //     .doc(authResult.user!.uid)
-        //     .set({'firstname': firstname, 'lastname': lastname, 'password': password});
-    } on FirebaseAuthException catch (e) {
-      String message = "error";
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'The account already exists for that email.';
-      } else if (e.code == 'user-not-found') {
-        message = 'No user found for this email.';
-      } else if (e.code == 'wrong-password') {
-        message = 'Wrong user privded for that user';
+      if (isLogin) {
+        authResult = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        authResult.user!.updateDisplayName(firstname);
+      } else {
+         authResult = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+            
+        final CollectionReference _userCollection = FirebaseFirestore.instance.collection('/users/UkJSr5o067B20bKihD32');
+        _userCollection.doc(_auth.currentUser!.uid).set({
+      "firstname": firstname,
+       'lastname': lastname,
+      "email": email,
+     'uid': authResult.user!.uid,
+    });
+    //     authResult = await _auth.createUserWithEmailAndPassword(
+    //         email: email, password: password);
+            
+    //          await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+    //   "firstname": firstname,
+    //    'lastname': lastname,
+    //   "email": email,
+    //  'uid': authResult.user!.uid,
+    // });
+    
+
+   // Call the user's CollectionReference to add a new user
+  //  await users.doc(authResult.user!.uid).set({
+  //       'firstname': firstname,
+  //           'lastname': lastname,
+  //           'email': email,
+  //           'uid': authResult.user!.uid,
+  //     });
+  //     final snapshot = await users.doc(authResult.user!.uid).get();
       }
+      
+      } on PlatformException catch (err) {
+      var message = 'An error occured. Please check your credentials.';
+
+      if (err.message != null) {
+        message = err.message!;
+      }
+
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
           content: Text(message),
-        backgroundColor: Colors.black,
-      ),
-    );
+          backgroundColor: Theme.of(ctx).errorColor,
+        ),
+      );
+
       setState(() {
         _isLoading = false;
       });
-    } catch (e) {
-      print(e);
+    } catch (err) {
+      print(err);
       setState(() {
-       _isLoading = false;
+        _isLoading = false;
       });
     }
   }
+  
   @override
   Widget build(BuildContext context) {
-    body:  Authform(submitauthform,_isLoading);
+    // body:  Authform(submitauthform,_isLoading);
     void getImage(ImageSource imageType) async{
       var image = await _picker.pickImage(source : imageType);
       setState(() {
@@ -108,23 +137,24 @@ class _BodyMobileState extends State<BodyMobile> {
     }
     Future uploadPic(BuildContext context ) async{
       String fileName = basename(_image!.path);
-      
+      // FirebaseFirestore.instance.collection('images').snapshots();
+      fileName = FirebaseFirestore.instance.collection('userimages').snapshots() as String;
     firebase_storage.Reference ref =
     firebase_storage.FirebaseStorage.instance
         .ref().child('uploads').child('/$fileName');
-          final metadata = firebase_storage.SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': fileName});
+    //       final metadata = firebase_storage.SettableMetadata(
+    //     contentType: 'image/jpeg',
+    //     customMetadata: {'picked-file-path': fileName});
 
-  firebase_storage.UploadTask uploadTask;
-    uploadTask = ref.putFile(io.File(_image!.path));
+  // firebase_storage.UploadTask uploadTask;
+  //   uploadTask = ref.putFile(io.File(_image!.path));
       // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-        firebase_storage.UploadTask task= await Future.value(uploadTask);
-    Future.value(uploadTask).then((value) => {
-    print("Upload file path ${value.ref.fullPath}")
-    }).onError((error, stackTrace) => {
-      print("Upload file path error ${error.toString()} ")
-    });
+        // firebase_storage.UploadTask task= await Future.value(uploadTask);
+    // Future.value(uploadTask).then((value) => {
+    // print("Upload file path ${value.ref.fullPath}")
+    // }).onError((error, stackTrace) => {
+    //   print("Upload file path error ${error.toString()} ")
+    // });
     
 
       // StorageTaskSnapchot taskSnapchot = await uploadTask.onComplete;
@@ -133,7 +163,9 @@ class _BodyMobileState extends State<BodyMobile> {
       //   Scaffold.of(context).showSnackBar(snackbar(context : Text('profile Picture uploaded')));
       // });
     }
+    
     Size size = MediaQuery.of(context).size;
+    body: Authform(_submitAuthForm, _isLoading,);
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -268,7 +300,7 @@ class _BodyMobileState extends State<BodyMobile> {
               text: "SIGNUP",
               press: () async {
                   setState(() {
-                   
+                  
                   });
                   try {
                     final newUser = await _auth.createUserWithEmailAndPassword(
@@ -280,7 +312,7 @@ class _BodyMobileState extends State<BodyMobile> {
                     print(e);
                   }
                   setState(() {
-                    showSpinner = false;
+                   
             });
                 },
               ),
