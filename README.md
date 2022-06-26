@@ -1,5 +1,5 @@
 # :camera: Friend Chat
-![My Image](assets/images/...jpeg)
+![My Image](assets/images/splashscreen.jpeg)
 # chat_application
 
 A new Flutter project.
