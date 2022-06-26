@@ -40,10 +40,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Chats'),
         BottomNavigationBarItem(
             icon: Icon(
-                Icons.people_outlined),
-            label: 'Friends'),
-        BottomNavigationBarItem(
-            icon: Icon(
                 Icons.person_outlined),
             label: 'Profile'
         ),

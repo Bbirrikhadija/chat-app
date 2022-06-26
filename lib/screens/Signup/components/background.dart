@@ -18,13 +18,6 @@ class Background extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 0,
-            left: 0,
-            child: Image.asset(
-              "assets/images/signup_top.png",
-            ),
-          ),
-          Positioned(
             bottom: 0,
             left: 0,
             child: Image.asset(

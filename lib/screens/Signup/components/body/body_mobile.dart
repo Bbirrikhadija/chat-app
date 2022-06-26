@@ -135,6 +135,7 @@ FirebaseFirestore _firestore = FirebaseFirestore.instance;
       Navigator.pop(context);
       });
     }
+    
     Future uploadPic(BuildContext context ) async{
       String fileName = basename(_image!.path);
       // FirebaseFirestore.instance.collection('images').snapshots();

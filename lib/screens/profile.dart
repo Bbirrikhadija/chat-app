@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<Profile> {
                     subtitle: Opacity(
                       opacity: 0.7,
                       child: Text(
-                        'Bbirri@gmail.com ',
+                        'Birrikhadija980@gmail.com ',
                         style: TextStyle(color:Theme.of(context).textTheme.bodyText1!.color),
                       ),
                     ),

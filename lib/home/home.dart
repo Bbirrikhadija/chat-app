@@ -37,9 +37,12 @@ class _HomePageState extends State<HomePage> {
             
             children: [
               Container(
+                  margin: EdgeInsets.symmetric(vertical: 6),
+      padding:  EdgeInsets.only(left: 6),
+      color: Colors.white,
                 child:
                 Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 20),
             child: Text('Friend chat',
             style : TextStyle(
               color: kprimary,
@@ -52,6 +55,7 @@ class _HomePageState extends State<HomePage> {
           ),
             RecentContacts(),
             Messages(),
+            // BottomNavBar(),
           ],
        
         ),
@@ -78,9 +82,11 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
                 Icons.person_outlined),
             label: 'Profile'
+            
         ),
         ],
         ),
+        
     );
   }
 }

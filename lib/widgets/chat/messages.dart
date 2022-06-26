@@ -11,37 +11,17 @@ class Messages extends StatefulWidget {
 
 class _MessagesState extends State<Messages> {
   final List messages = [
-    {'senderProfile' : 'assets/images/user1.jpg',
-      'senderName': 'Khadija',
-      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
-      'unRead' : 0,
-      'date' : '16:45',
-
-    },
-     {'senderProfile' : 'assets/images/user1.jpg',
-      'senderName': 'Laila',
-      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
-      'unRead' : 2,
-      'date' : '17:00',
-
-    },
-     {'senderProfile' : 'assets/images/user1.jpg',
-      'senderName': 'Mohammed',
-      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
+    {'senderProfile' : 'assets/images/user22.jpg',
+      'senderName': 'Anouar',
+      'message' : ' what about u ?',
       'unRead' : 3,
-      'date' : '17:09',
+      'date' : '9:00',
 
-    },
-     {'senderProfile' : 'assets/images/user1.jpg',
-      'senderName': 'Fadwa',
-      'message' : 'Hello ! Beautiful people, Hope you doing well ?',
-      'unRead' : 4,
-      'date' : '18:06',
-
-    },
+    }
+     
   ];
 
-   @override
+  @override
   Widget build (BuildContext context){
     return SingleChildScrollView(
       child: Column(
@@ -52,11 +32,11 @@ class _MessagesState extends State<Messages> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
               },
               child: Container(
-                padding: EdgeInsets.only( right: 37, top: 10),
+                padding: EdgeInsets.only( right: 32, top: 10),
                 child: Row(children: [
                   Container(
-                    width: 62,
-                    height: 62,
+                    width: 52,
+                    height: 52,
                     decoration: BoxDecoration(
                       color: purpleapp,
                       shape: BoxShape.circle,
@@ -75,15 +55,20 @@ class _MessagesState extends State<Messages> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Padding(padding: EdgeInsets.only(left: 11)),
                               Text(message['senderName'],
+                              
                               style: GoogleFonts.inter(
                                 color: Colors.black87,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
+                                
                               ),
+                              
                               ),
                               Wrap(
                                 children: [
+                                  Padding(padding: EdgeInsets.only(right: 8)),
                                   Text(
                                     message['message'],
                                     style: GoogleFonts.inter(
