@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage> {
           ),
             RecentContacts(),
             Messages(),
-            // BottomNavBar(),
           ],
        
         ),
